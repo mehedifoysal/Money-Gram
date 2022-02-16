@@ -20,10 +20,17 @@ document.querySelector('.balance-calculate').addEventListener('submit', function
 
 //input validation
 function validateInput(inputIdSelector) {
+    let input = document.getElementById(inputIdSelector);
     let inputValue = document.getElementById(inputIdSelector).value;
+
+    //remove error message
+    input.parentNode.removeChild('p');
+
+    //check if input is empty
     if(inputValue === '') {
         inputValue = 0;
     }
+    //check if input is a number
     if (!isNaN(inputValue) && inputValue >= 0) {
         return inputValue;
     } else {
