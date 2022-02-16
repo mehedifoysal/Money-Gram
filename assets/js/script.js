@@ -27,7 +27,16 @@ function validateInput(inputIdSelector) {
     if (!isNaN(inputValue) && inputValue >= 0) {
         return inputValue;
     } else {
-        alert('Please enter a valid number');
+        showErrorMessage(inputIdSelector, 'Please enter a valid number');
         return false;
     }
+}
+
+//show error message
+function showErrorMessage(inputIdSelector, errorMessage) {
+    let input = document.getElementById(inputIdSelector);
+    let pTag = document.createElement('p');
+    pTag.classList.add('error-message');
+    pTag.innerText = errorMessage;
+    input.parentNode.insertBefore(pTag, input.nextSibling);
 }
