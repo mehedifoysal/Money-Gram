@@ -3,10 +3,13 @@
 document.querySelector('.balance-calculate').addEventListener('submit', function(e) {
     e.preventDefault();
 
-    //income
-    let income = validateInput('income');
+    //income inital value
+    let incomeValue = document.getElementById('income').value;
 
-    if(income > 0){
+    if(incomeValue !== '') {
+        //income
+        let income = validateInput('income');
+
         //expenses
         let expenseForFood = validateInput('expense-for-food');
         let expenseForRent = validateInput('expense-for-rent');
@@ -16,8 +19,10 @@ document.querySelector('.balance-calculate').addEventListener('submit', function
         let totalExpensesTag = document.querySelector('#total-expenses span');
         let totalExpenses = parseInt(expenseForFood) + parseInt(expenseForRent) + parseInt(expenseForClothes);
 
+        console.log(totalExpenses);
+        console.log(income);
 
-        //remove error message
+        //remove error message if it exists
         removeErrorMessage('expense-error', true);
 
         if(income > totalExpenses){
@@ -27,7 +32,7 @@ document.querySelector('.balance-calculate').addEventListener('submit', function
             let balance = income - totalExpenses;
             balanceTag.innerHTML = balance;
         }else{
-            showErrorMessage('expense-error', 'You have not enough money for expenses', true);
+            showErrorMessage('expense-error', 'You have to reduce your expenses. Your expenses are higher than your income.', true);
         }
 
 
@@ -63,7 +68,6 @@ document.querySelector('.save-balance-form').addEventListener('submit', function
 
 //input validation
 function validateInput(inputIdSelector) {
-    let input = document.getElementById(inputIdSelector);
     let inputValue = document.getElementById(inputIdSelector).value;
 
     //remove error message p tag
@@ -77,7 +81,7 @@ function validateInput(inputIdSelector) {
     if (!isNaN(inputValue) && inputValue >= 0) {
         return inputValue;
     } else {
-        showErrorMessage(inputIdSelector, 'Please enter a valid number');
+        showErrorMessage(inputIdSelector, 'Please enter currect amount');
         return 0;
     }
 }
