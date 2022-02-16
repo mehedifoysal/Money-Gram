@@ -4,17 +4,48 @@ document.querySelector('.balance-calculate').addEventListener('submit', function
     e.preventDefault();
 
     //income
-    let income = document.getElementById('income').value;
+    let income = validateInput('income');
 
-    //expenses
-    let expenseForFood = validateInput('expense-for-food');
-    let expenseForRent = validateInput('expense-for-rent');
-    let expenseForClothes = validateInput('expense-for-clothes');
+    if(income > 0){
+        //expenses
+        let expenseForFood = validateInput('expense-for-food');
+        let expenseForRent = validateInput('expense-for-rent');
+        let expenseForClothes = validateInput('expense-for-clothes');
 
-    //total expenses
-    let totalExpenses = parseInt(expenseForFood) + parseInt(expenseForRent) + parseInt(expenseForClothes);
+        //total expenses
+        let totalExpensesTag = document.querySelector('#total-expenses span');
+        let totalExpenses = parseInt(expenseForFood) + parseInt(expenseForRent) + parseInt(expenseForClothes);
+        totalExpensesTag.innerHTML = totalExpenses;
 
-    console.log(expenseForFood);
+        //balance
+        let balanceTag = document.querySelector('#current-balance span');
+        let balance = income - totalExpenses;
+        balanceTag.innerHTML = balance;
+    } else {
+        alert('Please enter a valid income');
+    }
+
+
+});
+
+document.querySelector('.save-balance-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    //income
+    let income = validateInput('income');
+    let saveBalance = document.getElementById('save-balance').value;
+    let currentBalanceTag = document.querySelector('#current-balance span');
+    let currentBalance = parseInt(currentBalanceTag.innerHTML);
+
+    //calculate savings
+    let savings = income * saveBalance / 100;
+    let savingAmountTag = document.querySelector('#saving-amount span');
+    savingAmountTag.innerHTML = savings;
+
+    //remaining balance
+    let remainingBalanceTag = document.querySelector('#remaining-balance span');
+    let remainingBalance = currentBalance - savings;
+    remainingBalanceTag.innerHTML = remainingBalance;
 
 });
 
@@ -23,8 +54,11 @@ function validateInput(inputIdSelector) {
     let input = document.getElementById(inputIdSelector);
     let inputValue = document.getElementById(inputIdSelector).value;
 
-    //remove error message
-    input.parentNode.removeChild('p');
+    //remove error message p tag
+    errorMessagePTag = input.parentNode.querySelector('p');
+    if(errorMessagePTag !== null) {
+        input.parentNode.removeChild(errorMessagePTag);
+    }
 
     //check if input is empty
     if(inputValue === '') {
@@ -35,13 +69,14 @@ function validateInput(inputIdSelector) {
         return inputValue;
     } else {
         showErrorMessage(inputIdSelector, 'Please enter a valid number');
-        return false;
+        return 0;
     }
 }
 
 //show error message
 function showErrorMessage(inputIdSelector, errorMessage) {
     let input = document.getElementById(inputIdSelector);
+    //create error message
     let pTag = document.createElement('p');
     pTag.classList.add('error-message');
     pTag.innerText = errorMessage;
