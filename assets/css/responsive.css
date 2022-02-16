@@ -1,0 +1,72 @@
+@media only screen and (max-width: 991.98px) {
+    .cc-about .cc-about-content {
+        margin-bottom: 40px;
+    }
+    .cc-package-section .card{
+        margin-bottom: 50px;
+    }
+    .cc-row-cols-lg-2>*{
+        flex: 0 0 auto;
+        width: 50%;
+    }
+
+    /* Spacing */
+    .cc-pt-100 {
+        padding-top: 50px;
+    }
+
+    .cc-pb-100 {
+        padding-bottom: 50px;
+    }
+
+    .cc-py-100 {
+        padding: 50px 0;
+    }
+}
+
+@media only screen and (max-width: 767.98px) {
+
+    .cc-about .cc-about-content h2 {
+        font-size: 38px;
+        line-height: 44px;
+    }
+
+    .cc-about .cc-about-items .cc-about-item {
+        width: calc(100% / 1);
+        margin: 0 0 20px 0;
+    }
+
+    .cc-about .cc-about-items .cc-about-item:nth-child(2n+1) {
+        -webkit-transform: translateY(0);
+        -ms-transform: translateY(0);
+        -o-transform: translateY(0);
+        transform: translateY(0);
+    }
+    .cc-row-cols-lg-2>*{
+        flex: 0 0 auto;
+        width: 100%;
+    }
+    .section-header h2{
+        font-weight: 600;
+        font-size: 19px;
+        line-height: 28px;
+    }
+
+    .cc-accordion .accordion-button{
+        font-weight: 500;
+        font-size: 16px !important;
+        line-height: 28px;
+    }
+}
+@media only screen and (max-width: 576.98px) {
+    .hero-section .carousel-caption h1{
+        font-size: 24px;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .cc-about .cc-about-content h2 {
+        font-size: 28px;
+        line-height: 34px;
+    }
+}
