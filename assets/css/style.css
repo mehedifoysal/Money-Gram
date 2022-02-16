@@ -92,7 +92,7 @@ body {
     line-height: 23px;
 }
 
-.balance-calculate .error-message {
+.money-calculate .error-message {
     color: #F00;
     font-size: 14px;
     line-height: 20px;

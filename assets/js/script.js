@@ -15,14 +15,26 @@ document.querySelector('.balance-calculate').addEventListener('submit', function
         //total expenses
         let totalExpensesTag = document.querySelector('#total-expenses span');
         let totalExpenses = parseInt(expenseForFood) + parseInt(expenseForRent) + parseInt(expenseForClothes);
-        totalExpensesTag.innerHTML = totalExpenses;
 
-        //balance
-        let balanceTag = document.querySelector('#current-balance span');
-        let balance = income - totalExpenses;
-        balanceTag.innerHTML = balance;
+
+        //remove error message
+        removeErrorMessage('expense-error', true);
+
+        if(income > totalExpenses){
+            totalExpensesTag.innerHTML = totalExpenses;
+            //balance
+            let balanceTag = document.querySelector('#current-balance span');
+            let balance = income - totalExpenses;
+            balanceTag.innerHTML = balance;
+        }else{
+            showErrorMessage('expense-error', 'You have not enough money for expenses', true);
+        }
+
+
     } else {
-        alert('Please enter a valid income');
+        //remove error message p tag
+        removeErrorMessage('income');
+        showErrorMessage('income', 'Please enter your income first');
     }
 
 
@@ -55,10 +67,7 @@ function validateInput(inputIdSelector) {
     let inputValue = document.getElementById(inputIdSelector).value;
 
     //remove error message p tag
-    errorMessagePTag = input.parentNode.querySelector('p');
-    if(errorMessagePTag !== null) {
-        input.parentNode.removeChild(errorMessagePTag);
-    }
+    removeErrorMessage(inputIdSelector);
 
     //check if input is empty
     if(inputValue === '') {
@@ -74,11 +83,32 @@ function validateInput(inputIdSelector) {
 }
 
 //show error message
-function showErrorMessage(inputIdSelector, errorMessage) {
-    let input = document.getElementById(inputIdSelector);
+function showErrorMessage(IdSelector, errorMessage, insertChild = false) {
+    let element = document.getElementById(IdSelector);
     //create error message
     let pTag = document.createElement('p');
     pTag.classList.add('error-message');
     pTag.innerText = errorMessage;
-    input.parentNode.insertBefore(pTag, input.nextSibling);
+    if (insertChild) {
+        element.appendChild(pTag);
+    } else {
+        element.parentNode.insertBefore(pTag, element.nextSibling);
+    }
+}
+
+//remove error message
+function removeErrorMessage(IdSelector, child = false) {
+    let element, errorMessagePTag;
+    element = document.getElementById(IdSelector);
+    if (child) {
+        errorMessagePTag = element.querySelector('p');
+        if(errorMessagePTag !== null) {
+            element.removeChild(errorMessagePTag);
+        }
+    } else {
+        errorMessagePTag = element.parentNode.querySelector('p');
+        if(errorMessagePTag !== null) {
+            element.parentNode.removeChild(errorMessagePTag);
+        }
+    }
 }
