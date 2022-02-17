@@ -10,5 +10,11 @@
 }
 
 @media only screen and (max-width: 480px) {
-
+    .save-balance-form-row{
+        flex-direction: column;
+    }
+    .save-balance-form .save-balance-form-row>*{
+        margin: 7px 0;
+        display: inline-block;
+    }
 }
