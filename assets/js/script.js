@@ -1,12 +1,12 @@
 //money calculation form
 
-document.querySelector('.balance-calculate').addEventListener('submit', function(e) {
+document.querySelector('.balance-calculate').addEventListener('submit', function (e) {
     e.preventDefault();
 
-    //income inital value
+    //income initial value
     let incomeValue = document.getElementById('income').value;
 
-    if(incomeValue !== '') {
+    if (incomeValue !== '') {
         //income
         let income = validateInput('income');
 
@@ -19,51 +19,69 @@ document.querySelector('.balance-calculate').addEventListener('submit', function
         let totalExpensesTag = document.querySelector('#total-expenses span');
         let totalExpenses = parseInt(expenseForFood) + parseInt(expenseForRent) + parseInt(expenseForClothes);
 
-        console.log(totalExpenses);
-        console.log(income);
-
         //remove error message if it exists
         removeErrorMessage('expense-error', true);
 
-        if(income > totalExpenses){
-            totalExpensesTag.innerHTML = totalExpenses;
-            //balance
-            let balanceTag = document.querySelector('#current-balance span');
-            let balance = income - totalExpenses;
-            balanceTag.innerHTML = balance;
-        }else{
-            showErrorMessage('expense-error', 'You have to reduce your expenses. Your expenses are higher than your income.', true);
+        if (income > 0) {
+            if (income > totalExpenses) {
+                totalExpensesTag.innerHTML = totalExpenses;
+                //balance
+                let balanceTag = document.querySelector('#current-balance span');
+                let balance = income - totalExpenses;
+                balanceTag.innerHTML = balance;
+            } else {
+                showErrorMessage('expense-error', 'You have to reduce your expenses. Your expenses are higher than your income.', true);
+            }
         }
 
-
     } else {
-        //remove error message p tag
         removeErrorMessage('income');
         showErrorMessage('income', 'Please enter your income first');
     }
-
-
 });
 
-document.querySelector('.save-balance-form').addEventListener('submit', function(e) {
+document.querySelector('.save-balance-form').addEventListener('submit', function (e) {
     e.preventDefault();
 
-    //income
-    let income = validateInput('income');
-    let saveBalance = document.getElementById('save-balance').value;
-    let currentBalanceTag = document.querySelector('#current-balance span');
-    let currentBalance = parseInt(currentBalanceTag.innerHTML);
+    //income initial value
+    let incomeValue = document.getElementById('income').value;
+    if (incomeValue !== '') {
+        //income
+        let income = validateInput('income');
+        let savingPercentage = document.getElementById('saving-percentage').value;
+        removeErrorMessage('saving-error', true);
 
-    //calculate savings
-    let savings = income * saveBalance / 100;
-    let savingAmountTag = document.querySelector('#saving-amount span');
-    savingAmountTag.innerHTML = savings;
+        if (savingPercentage !== '') {
+            let currentBalanceTag = document.querySelector('#current-balance span');
+            let currentBalance = parseInt(currentBalanceTag.innerHTML);
+            savingPercentage = validateInput('saving-percentage');
 
-    //remaining balance
-    let remainingBalanceTag = document.querySelector('#remaining-balance span');
-    let remainingBalance = currentBalance - savings;
-    remainingBalanceTag.innerHTML = remainingBalance;
+            if (savingPercentage > 100) {
+                showErrorMessage('saving-error', 'You can save up to 100% of your income.', true);
+            } else {
+                //calculate savings
+                let savings = income * savingPercentage / 100;
+                let savingAmountTag = document.querySelector('#saving-amount span');
+                savingAmountTag.innerHTML = savings;
 
+                //remaining balance
+                let remainingBalanceTag = document.querySelector('#remaining-balance span');
+                if (currentBalance >= savings) {
+                    let remainingBalance = currentBalance - savings;
+                    remainingBalanceTag.innerHTML = remainingBalance;
+                } else {
+                    showErrorMessage('saving-error', 'Your current balance is low. You can\'t save ' + savingPercentage + '% of your income', true);
+                }
+
+            }
+        } else {
+            removeErrorMessage('saving-error', true);
+            showErrorMessage('saving-error', 'Please enter your saving percentage', true);
+        }
+    } else {
+        removeErrorMessage('income');
+        showErrorMessage('income', 'Please enter your income first');
+    }
 });
 
 //input validation
@@ -74,14 +92,16 @@ function validateInput(inputIdSelector) {
     removeErrorMessage(inputIdSelector);
 
     //check if input is empty
-    if(inputValue === '') {
+    if (inputValue === '') {
         inputValue = 0;
     }
-    //check if input is a number
-    if (!isNaN(inputValue) && inputValue >= 0) {
+    //check input value
+    if (inputValue < 0) {
+        showErrorMessage(inputIdSelector, 'Please enter a positive number.');
+    } else if (!isNaN(inputValue) && inputValue >= 0) {
         return inputValue;
     } else {
-        showErrorMessage(inputIdSelector, 'Please enter currect amount');
+        showErrorMessage(inputIdSelector, 'Please enter a number.');
         return 0;
     }
 }
@@ -93,6 +113,8 @@ function showErrorMessage(IdSelector, errorMessage, insertChild = false) {
     let pTag = document.createElement('p');
     pTag.classList.add('error-message');
     pTag.innerText = errorMessage;
+
+    //insert error message
     if (insertChild) {
         element.appendChild(pTag);
     } else {
@@ -106,12 +128,12 @@ function removeErrorMessage(IdSelector, child = false) {
     element = document.getElementById(IdSelector);
     if (child) {
         errorMessagePTag = element.querySelector('p');
-        if(errorMessagePTag !== null) {
+        if (errorMessagePTag !== null) {
             element.removeChild(errorMessagePTag);
         }
     } else {
         errorMessagePTag = element.parentNode.querySelector('p');
-        if(errorMessagePTag !== null) {
+        if (errorMessagePTag !== null) {
             element.parentNode.removeChild(errorMessagePTag);
         }
     }

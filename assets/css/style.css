@@ -134,6 +134,9 @@ body {
 .save-balance-form .form-group label{
     margin-right: 15px;
 }
+.save-balance-form .form-group .error-message{
+    flex: 0 0 100%;
+}
 
 
 
