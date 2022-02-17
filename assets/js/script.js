@@ -1,6 +1,6 @@
 //money calculation form
 
-document.querySelector('.balance-calculate').addEventListener('submit', function (e) {
+document.querySelector('.balance-calculate-btn').addEventListener('click', function (e) {
     e.preventDefault();
 
     //income initial value
@@ -40,7 +40,7 @@ document.querySelector('.balance-calculate').addEventListener('submit', function
     }
 });
 
-document.querySelector('.save-balance-form').addEventListener('submit', function (e) {
+document.querySelector('.save-balance-btn').addEventListener('click', function (e) {
     e.preventDefault();
 
     //income initial value
@@ -58,7 +58,7 @@ document.querySelector('.save-balance-form').addEventListener('submit', function
 
             if (savingPercentage > 100) {
                 showErrorMessage('saving-error', 'You can save up to 100% of your income.', true);
-            } else {
+            } else if(savingPercentage > 0) {
                 //calculate savings
                 let savings = income * savingPercentage / 100;
                 let savingAmountTag = document.querySelector('#saving-amount span');
@@ -87,6 +87,10 @@ document.querySelector('.save-balance-form').addEventListener('submit', function
 //input validation
 function validateInput(inputIdSelector) {
     let inputValue = document.getElementById(inputIdSelector).value;
+
+    if(inputIdSelector === 'saving-percentage') {
+        inputIdSelector = 'saving-error';
+    }
 
     //remove error message p tag
     removeErrorMessage(inputIdSelector);
