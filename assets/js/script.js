@@ -1,6 +1,7 @@
-//money calculation form
-
-document.querySelector('.balance-calculate-btn').addEventListener('click', function (e) {
+/*
+* Balance calculate
+*/
+const balanceCalculate = (e) => {
     e.preventDefault();
 
     //income initial value
@@ -38,9 +39,16 @@ document.querySelector('.balance-calculate-btn').addEventListener('click', funct
         removeErrorMessage('income');
         showErrorMessage('income', 'Please enter your income first');
     }
-});
+}
+document.querySelector('.balance-calculate').addEventListener('submit', balanceCalculate);
+document.querySelector('.balance-calculate').addEventListener('change', balanceCalculate);
+document.querySelector('.balance-calculate').addEventListener('keyup', balanceCalculate);
 
-document.querySelector('.save-balance-btn').addEventListener('click', function (e) {
+
+/*
+* Save balance calculate
+*/
+const savePercentage = (e) => {
     e.preventDefault();
 
     //income initial value
@@ -59,7 +67,7 @@ document.querySelector('.save-balance-btn').addEventListener('click', function (
 
             if (savingPercentage > 100) {
                 showErrorMessage('saving-error', 'You can save up to 100% of your income.', true);
-            } else if(savingPercentage >= 0) {
+            } else if (savingPercentage >= 0) {
                 //calculate savings
                 let savings = income * savingPercentage / 100;
                 let savingAmountTag = document.querySelector('#saving-amount span');
@@ -83,13 +91,16 @@ document.querySelector('.save-balance-btn').addEventListener('click', function (
         removeErrorMessage('income');
         showErrorMessage('income', 'Please enter your income first');
     }
-});
+}
+document.querySelector('.save-balance-form').addEventListener('submit', savePercentage);
+document.querySelector('.save-balance-form').addEventListener('change', savePercentage);
+document.querySelector('.save-balance-form').addEventListener('keyup', savePercentage);
 
 //input validation
 function validateInput(inputIdSelector) {
     let inputValue = document.getElementById(inputIdSelector).value;
 
-    if(inputIdSelector === 'saving-percentage') {
+    if (inputIdSelector === 'saving-percentage') {
         inputIdSelector = 'saving-error';
     }
 
